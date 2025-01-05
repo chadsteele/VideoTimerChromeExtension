@@ -12,11 +12,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": [
-				"*://*.youtube.com/*",
-				"*://*.spotify.com/*",
-				"*://*.soundcloud.com/*"
-			],
+			"matches": ["*://*.youtube.com/*", "*://*.soundcloud.com/*"],
 			"js": ["content.js"]
 		}
 	]

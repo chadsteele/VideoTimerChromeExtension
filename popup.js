@@ -11,7 +11,7 @@ document.getElementById("saveButton").addEventListener("click", () => {
 		enabled,
 	}
 
-	chrome.storage.local.set({config, old}, () => {
+	chrome.storage.local.set({config}, () => {
 		console.log({config})
 	})
 })
