@@ -1,0 +1,23 @@
+{
+	"name": "Video Workout Timer",
+	"description": "Selects next video after a timeout - great for interval workouts",
+	"version": "1.0",
+	"manifest_version": 3,
+	"permissions": ["storage"],
+	"icons": {
+		"48": "stopwatchheart.png"
+	},
+	"action": {
+		"default_popup": "popup.html"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"*://*.youtube.com/*",
+				"*://*.spotify.com/*",
+				"*://*.soundcloud.com/*"
+			],
+			"js": ["content.js"]
+		}
+	]
+}
