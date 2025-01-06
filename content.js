@@ -5,6 +5,7 @@ let config = {
 	maxTime: 60,
 	transitionTime: 10,
 	enabled: true,
+	oneSegment: true,
 }
 
 function refreshConfig() {
@@ -63,25 +64,54 @@ function triggerNext() {
 
 // Main interval function to check the video and trigger the next event.
 const interval = setInterval(() => {
-	const {maxTime, enabled} = config
+	const {maxTime, enabled, oneSegment} = config
 	if (!enabled) return
 
 	const video = document.querySelector("video")
 	if (!video) return
 	if (video.paused) return
 
-	// Start the video at the middle of the video
-	const start = Math.max(0, (video.duration - maxTime) / 2)
-	if (video.currentTime < start) {
-		video.currentTime = start
+	let endTime = maxTime
+	let startTime = Math.max(0, (video.duration - maxTime) / 2)
+	let gapTimes = []
+
+	if (!oneSegment) {
+		const segments = Math.floor(video.duration / maxTime)
+		const gaps = (segments - 1) * 1
+		const totalTime = segments * (maxTime + gaps)
+		startTime = Math.max(0, (video.duration - totalTime) / 2)
+		endTime = startTime + totalTime
+
+		for (let i = 1; i <= segments; i++) {
+			time = startTime + i * maxTime + 1
+			gapTimes.push([time, time + 1])
+		}
+		console.log({startTime, endTime, gapTimes, segments, gaps, totalTime})
+	}
+
+	// Start the video
+	if (video.currentTime < startTime) {
+		video.currentTime = startTime
 		video.pause()
 		beeper.playTransition().then(() => {
 			video.play()
 		})
 	}
 
+	// Check if the video is in a gap time
+	gapTimes.forEach(([start, end]) => {
+		if (video.currentTime >= start && video.currentTime < end) {
+			video.currentTime = end
+			video.pause()
+			refreshConfig()
+			beeper.playTransition().then(() => {
+				video.play()
+			})
+		}
+	})
+
 	// If the maxTime has passed, trigger the next event.
-	if (video.currentTime >= start + maxTime || video.ended) {
+	if (video.currentTime >= startTime + endTime || video.ended) {
 		refreshConfig()
 		triggerNext()
 	}

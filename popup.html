@@ -34,15 +34,23 @@
     <div>
       <input type="checkbox" id="enabled" checked> <label for="enabled">enabled</label>
     </div>
-    <div> When enabled, this extension will play a portion of a video and then transition to the next video
+    <div> When enabled, this extension will play a segment of a video and then transition to the next video/segment
       after a transition period.</div>
     <div>
-      <label for="maxTime">Video Duration (seconds):</label>
+      <label for="maxTime">Segment Duration (seconds):</label>
       <input type="number" id="maxTime" min="1" value="60">
     </div>
     <div>
       <label for="transitionTime">Transition Time (seconds):</label>
       <input type="number" id="transitionTime" min="1" value="10">
+    </div>
+
+    <div>
+      Check here to only play one segment per video, otherwise it will play all segments in the video before playing all
+      the segments in the next video.
+    </div>
+    <div>
+      <input type="checkbox" id="oneSegment" checked> <label for="oneSegment">play one segment per video</label>
     </div>
 
 

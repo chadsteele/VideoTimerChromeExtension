@@ -4,16 +4,20 @@ document.getElementById("saveButton").addEventListener("click", () => {
 		document.getElementById("transitionTime").value
 	)
 	const enabled = document.getElementById("enabled").checked
+	const oneSegment = document.getElementById("oneSegment").checked
 
 	const config = {
 		maxTime,
 		transitionTime,
 		enabled,
+		oneSegment,
 	}
 
 	chrome.storage.local.set({config}, () => {
 		console.log({config})
 	})
+
+	window.close()
 })
 
 // Load saved settings
@@ -23,5 +27,6 @@ chrome.storage.local.get(["config"], (result) => {
 		document.getElementById("transitionTime").value =
 			result.config.transitionTime
 		document.getElementById("enabled").checked = result.config.enabled
+		document.getElementById("oneSegment").checked = result.config.oneSegment
 	}
 })
