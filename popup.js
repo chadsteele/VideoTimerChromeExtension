@@ -17,6 +17,8 @@ document.getElementById("saveButton").addEventListener("click", () => {
 		console.log({config})
 	})
 
+	chrome.action.setBadgeText({text: config.enabled ? "" : "off"})
+
 	window.close()
 })
 
