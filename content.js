@@ -77,12 +77,12 @@ const interval = setInterval(() => {
 
 	if (!oneSegment) {
 		const segments = Math.floor(video.duration / maxTime)
-		const gaps = (segments - 1) * 1
-		const totalTime = segments * (maxTime + gaps)
+		const gaps = segments - 1
+		const totalTime = segments * maxTime
 		startTime = Math.max(0, (video.duration - totalTime) / 2)
 		endTime = startTime + totalTime
 
-		for (let i = 1; i <= segments; i++) {
+		for (let i = 1; i < segments; i++) {
 			time = startTime + i * maxTime + 1
 			gapTimes.push([time, time + 1])
 		}
@@ -101,17 +101,17 @@ const interval = setInterval(() => {
 	// Check if the video is in a gap time
 	gapTimes.forEach(([start, end]) => {
 		if (video.currentTime >= start && video.currentTime < end) {
-			video.currentTime = end
 			video.pause()
-			refreshConfig()
 			beeper.playTransition().then(() => {
+				video.currentTime = end
 				video.play()
 			})
+			refreshConfig()
 		}
 	})
 
 	// If the maxTime has passed, trigger the next event.
-	if (video.currentTime >= startTime + endTime || video.ended) {
+	if (video.ended || video.currentTime >= endTime) {
 		refreshConfig()
 		triggerNext()
 	}

@@ -1,7 +1,7 @@
 {
 	"name": "Video Workout Timer",
 	"description": "Selects next video after a timeout - great for interval workouts",
-	"version": "1.0",
+	"version": "1.1",
 	"manifest_version": 3,
 	"permissions": ["storage"],
 	"icons": {
